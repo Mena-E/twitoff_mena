@@ -12,6 +12,8 @@ class User(DB.Model):
     id = DB.Column(DB.BigInteger, primary_key=True)
     # name column
     name = DB.Column(DB.String, nullable=False)
+    # Keeps track of id for the newest tweet by user
+    newest_tweet_id = DB.Column(DB.BigInteger) 
 
     def __repr__(self):
         return "<User: {}>".format(self.name)
@@ -19,9 +21,10 @@ class User(DB.Model):
 
 class Tweet(DB.Model):
     """Keeps track of Tweets for each user"""
-    id = DB.Column(DB.BigInteger, primary_key=True)
+    id = DB.Column(DB.BigInteger, primary_key=True) # id column (primary key)
     # allows for text and links
     text = DB.Column(DB.Unicode(300))  
+    vect = DB.Column(DB.PickleType, nullable=False)
     # usier_id column corresponding to user
     user_id = DB.Column(DB.BigInteger, DB.ForeignKey(
         'user.id'), nullable=False) 
@@ -32,19 +35,10 @@ class Tweet(DB.Model):
         return "<Tweet: {}>".format(self.text)
 
 
-
-def insert_example_users():
-    """Will insert two hypothetical users we've made"""
-    mena = User(id=1, name='Mena')
-    elon = User(id=2, name='Elon Musk')
-    DB.session.add(mena)
-    DB.session.add(elon)
-    DB.session.commit()
-
-
 CREATE_USER_TABLE_SQL = """
-  CREATE TABLE IF NOT EXIST user (
+  CREATE TABLE IF NOT EXISTS user (
     id INT PRIMARY,
     name STRING NOT NULL
   );
 """
+    

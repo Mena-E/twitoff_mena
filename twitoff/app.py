@@ -1,6 +1,8 @@
 """This is what brings the application together"""
+from os import getenv 
 from flask import Flask, render_template
-from .models import DB, User, insert_example_users
+from .models import DB, User
+from .twitter import add_or_update_user
 
 
 def create_app():
@@ -10,26 +12,33 @@ def create_app():
     """
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db.sqlite3'
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONs"] = False
+    app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URI")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+    # Initializing database
     DB.init_app(app)
 
-    @app.route('/')
+    # decorator checks for specifci endpoint visits
+    @app.route('/') # http://127.0.0.1:500/
     def root():
         # Drops everything from DB
         DB.drop_all()
         # Creates DB
-        DB.create_all()
-        insert_example_users()
+        DB.create_all
         return render_template('base.html', title = "Home")
 
-    @app.route('/hola')
-    def hola():
-        return "Hola, Twitoff"
 
-    @app.route('/salut')
-    def salut():
-        return "Salut, Twitoff"
+    @app.route('/reset')
+    def reset():
+        # Drops everything from DB, then creates a new DB
+        DB.drop_all()
+        DB.create_all()
+        return "Database reset!"
+
+
+    @app.route('/addusers')
+    def add_users():
+        # adding users
+        add_or_update_user("mena")
 
     return app
