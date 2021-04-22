@@ -1,4 +1,4 @@
-"""Retrieve tweets, and users then create embeddings and populate DB"""
+"""Retrieve tweets, and users then creates embeddings and populate DB"""
 from os import getenv
 import tweepy
 import spacy
