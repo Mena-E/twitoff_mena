@@ -30,7 +30,7 @@ class Tweet(DB.Model):
         'user.id'), nullable=False) 
     # Creates user link between tweets
     user = DB.relationship('User', backref=DB.backref('tweets', lazy=True))
-
+    
     def __repr__(self):
         return "<Tweet: {}>".format(self.text)
 

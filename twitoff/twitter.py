@@ -29,6 +29,7 @@ def add_or_update_user(username):
         db_user = (User.query.get(twitter_user.id)) or User(
             id=twitter_user.id, name=username)
         DB.session.add(db_user)
+
         # Getting tweets from "twitter_user"
         tweets = twitter_user.timeline(
             count=200, 
@@ -43,9 +44,9 @@ def add_or_update_user(username):
 
         # tweets is a list of tweet objects
         for tweet in tweets:
-            tweet_vector = vectorize_tweet(tweet.full_text)
-            db_tweet = Tweet(id=tweet.id, text=tweet.full_text,
-                                vect=vectorized_tweet)
+            tweet_vector = vectorize_tweet(tweet.text)
+            db_tweet = Tweet(id=tweet.id, text=tweet.text,
+                        vect=tweet_vector)
             db_user.tweets.append(db_tweet)
             DB.session.add(db_tweet)
 
