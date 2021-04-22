@@ -64,7 +64,7 @@ def create_app():
             [request.values['user0'], request.values["user1"]])
 
         if user0 == user1:
-            message = "Cannot compare users to themselves!"
+            message = "User names are the same; cannot compare users to themselves!"
 
         else:
             # prediction returns 0 or 1
