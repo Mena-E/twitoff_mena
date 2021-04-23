@@ -1,5 +1,5 @@
 """This is what brings the application together"""
-#from os import getenv
+from os import getenv
 from flask import Flask, render_template, request
 from .predict import predict_user
 from .models import DB, User
@@ -15,7 +15,7 @@ def create_app():
     # __name__ is the name of the current path module
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = postgres://ngcpxsxgcxeevq:21602d5a6f0cd5d05ea957911fe80345e6a11b3048e476a3100a88556d179ceb@ec2-18-215-111-67.compute-1.amazonaws.com:5432/dagmpm71giv344
+    app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     DB.init_app(app)
