@@ -9,6 +9,7 @@ from .twitter import add_or_update_user
 def create_app():
     """
     The main app function for twitoff.
+    
     Brings everything together.
     """
     # __name__ is the name of the current path module
